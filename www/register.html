@@ -9,9 +9,11 @@
     <link rel="stylesheet " type="text/css " href="css/globle.css " />
     <link rel="stylesheet " type="text/css " href="css/style.css " />
     <link rel="stylesheet " type="text/css " href="css/bootstrap.css " />
+    <link rel="stylesheet " type="text/css " href="css/popupInsert.css " />
     <script src='js/jquery-2.0.3.js'></script>
     <script src='js/bootstrap.js'></script>
     <script src='js/index.js'></script>
+    <script src='js/popupInsert.js'></script>
 </head>
 
 <body>
@@ -25,9 +27,9 @@
     </div>
     <main>
         <div class="ask-content">
-            <form action="/login" method="post">
+            <form>
                 <div class="form-group">
-                    <input type="text" name="petname" class="form-control" required pattern="^[0-9a-zA-Z\u4e00-\u9fa5]{2,16}$" placeholder="请输入昵称">
+                    <input type="text" name="name" class="form-control" required pattern="^[0-9a-zA-Z\u4e00-\u9fa5]{2,16}$" placeholder="请输入昵称">
                 </div>
                 <div class="form-group">
                     <input type="password" name="password" class="form-control" required pattern="^.{6,16}$" placeholder="请输入密码">
@@ -36,26 +38,76 @@
                     <input type="password" name="password01" class="form-control" required pattern="^.{6,16}$" placeholder="请再次输入密码">
                 </div>
                 <div class="form-group">
-                    <input type="radio" name="sex" value="女士" id="woman"><label for="woman">女士</label>
+                    <input type="radio" name="sex" value="女士" id="woman">
+                    <label for="woman">女士</label>
                     <br>
-                    <input type="radio" name="sex" value="先生" id="man"><label for="man">先生</label>
+                    <input type="radio" name="sex" value="先生" id="man">
+                    <label for="man">先生</label>
                 </div>
                 <div class="form-group">
                     <input type="text" name="email" class="form-control" required placeholder="请输入电子邮箱地址">
                 </div>
                 <div>
-                    <select name="" class="form-control">
+                    <select name="course" class="form-control">
                         <option value="HTML5">HTML5</option>
-                        <option value="HTML5">IOS</option>
-                        <option value="HTML5">Android</option>
-                    </select><br>
-              </div>
+                        <option value="IOS">IOS</option>
+                        <option value="Android">Android</option>
+                    </select>
+                    <br>
+                </div>
                 <input type="submit" class="btn btn-success form-control" value="注册" data-toggle="modal" data-target="#myModal">
             </form>
         </div>
     </main>
 </body>
 <script type="text/javascript">
+$(function() {
+
+
+    // 返回登录
+    $('.back').click(function() {
+            location.href = 'login.html'
+        })
+        // 返回主页
+    $('.user').click(function() {
+            location.href = 'index.html'
+        })
+        // 提交数据
+    $('.btn').click(function(e) {
+        e.preventDefault();
+        var name = $('input[name=name]').val()
+        var password = $('input[name=password]').val()
+        var password01 = $('input[name=password01]').val()
+        var sex = $('input[name=sex]:checked').val()
+        var email = $('input[name=email]').val()
+        var course = $('select[name=course]').val()
+        console.log(name)
+        $.post('/register/post', {
+            name: name,
+            password: password,
+            password01: password01,
+            sex: sex,
+            email: email,
+            course: course
+        }, function(response, statusText, xhr) {
+            if (xhr.status == 200) {
+            
+                if (response == 'err') {
+                    $.popup1("对不起！<br>该用户名已被占用")
+                } else {
+                    if (response == '0') {
+                        $.popup1("两次密码不一致,<br>请重新输入")
+                    } else {
+                        $.popup1("恭喜注册成功！")
+                    }
+                }
+
+
+            }
+        })
+    })
+
+})
 </script>
 
 </html>

@@ -17,30 +17,49 @@
   <div class="h50"></div>
   <div id="nav">
     <nav class="nav">
-      <!-- 用户下拉 -->
-      <div class="user-info" style="display: none">
-        <a href="javascript:;">个人资料</a>
-        <a href="javascript:;">退出</a>
-      </div>
-      <div class="back"><span class="glyphicon glyphicon-chevron-left"></span></div>
+     <div class="back"><span class="glyphicon glyphicon-chevron-left"></span></div>
       <div class="title">登录</div>
-      <div class="user"><span class="glyphicon glyphicon-home fs18"></span>
+      <div class="user"><span class="glyphicon glyphicon-plus-sign fs18"></span>
       </div>
     </nav>
   </div>
   <main>
     <div class="ask-content">
-      <form action="/login" method="post">
+      <form >
         <div class="form-group">
-          <input type="text" name="petname" class="form-control" required pattern="^[0-9a-zA-Z\u4e00-\u9fa5]{2,16}$" placeholder="请输入昵称">
+          <input type="text" name="name" class="form-control" required pattern="^[0-9a-zA-Z\u4e00-\u9fa5]{2,16}$" placeholder="请输入昵称">
         </div>
         <div class="form-group">
           <input type="password" name="password" class="form-control" required pattern="^.{6,16}$" placeholder="请输入密码">
         </div>
-        <input type="submit" class="btn btn-success form-control" value="登陆" data-toggle="modal" data-target="#myModal">
+        <input type="submit" class="btn btn-success form-control" value="登录" data-toggle="modal" data-target="#myModal">
       </form>
     </div>
   </main>
 </body>
+<script type="text/javascript">
+$(function(){
+  $('.user').click(function(){
+    location.href='register.html'
+  })
+ $('.btn').click(function(e) {
+        e.preventDefault();
+        var name = $('input[name=name]').val()
+        var password = $('input[name=password]').val()
+       
+        console.log(name)
+        $.post('/login/post', {
+            name: name,
+            password: password,
+           
+        }, function(response, statusText, xhr) {
+            if (xhr.status == 200) {
+            
+            }
+        })
+    })
+
+ })
+</script>
 
 </html>
