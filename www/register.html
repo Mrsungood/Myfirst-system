@@ -62,8 +62,6 @@
 </body>
 <script type="text/javascript">
 $(function() {
-
-
     // 返回登录
     $('.back').click(function() {
             location.href = 'login.html'
@@ -73,39 +71,26 @@ $(function() {
             location.href = 'index.html'
         })
         // 提交数据
-    $('.btn').click(function(e) {
-        e.preventDefault();
-        var name = $('input[name=name]').val()
-        var password = $('input[name=password]').val()
-        var password01 = $('input[name=password01]').val()
-        var sex = $('input[name=sex]:checked').val()
-        var email = $('input[name=email]').val()
-        var course = $('select[name=course]').val()
-        console.log(name)
-        $.post('/register/post', {
-            name: name,
-            password: password,
-            password01: password01,
-            sex: sex,
-            email: email,
-            course: course
-        }, function(response, statusText, xhr) {
-            if (xhr.status == 200) {
-            
-                if (response == 'err') {
-                    $.popup1("对不起！<br>该用户名已被占用")
-                } else {
-                    if (response == '0') {
-                        $.popup1("两次密码不一致,<br>请重新输入")
-                    } else {
-                        $.popup1("恭喜注册成功！")
-                    }
-                }
-
-
+    $("form").submit(function(e) {
+        e.preventDefault()
+            // 可以把表单里面的所有内容读出来形成一个字符串
+        var data = $(this).serializeArray();
+        // console.log($(this).serialize());
+        // console.log($(this).serializeArray())
+            // ajax发送请求
+        $.post('/user/register', data, function(res, statusText, xhr) {
+            if (statusText == "success") {
+               if(res.code=="success"){
+                $.popup1(res.content,function(){
+                    location.href="/login.html"
+                })
+               }else{
+                $.popup1(res.content)
+               }
             }
         })
     })
+
 
 })
 </script>

@@ -9,8 +9,11 @@
   <link rel="stylesheet " type="text/css " href="css/bootstrap.min.css" />
   <link rel="stylesheet " type="text/css " href="css/globle.css " />
   <link rel="stylesheet " type="text/css " href="css/style.css " />
+   <link rel="stylesheet " type="text/css " href="css/popupInsert.css " />
   <script src='js/jquery-2.0.3.js'></script>
   <script src='js/index.js'></script>
+  <script src='js/popupInsert.js'></script>
+  <script src='js/jquery.cookie.js'></script>
 </head>
 
 <body>
@@ -42,18 +45,25 @@ $(function(){
   $('.user').click(function(){
     location.href='register.html'
   })
- $('.btn').click(function(e) {
+  $('.back').click(function(){
+    location.href='register.html'
+  })
+ $('form').submit(function(e) {
         e.preventDefault();
-        var name = $('input[name=name]').val()
-        var password = $('input[name=password]').val()
-       
-        console.log(name)
-        $.post('/login/post', {
-            name: name,
-            password: password,
-           
-        }, function(response, statusText, xhr) {
-            if (xhr.status == 200) {
+        var data=$(this).serialize()
+           console.log(data)
+        $.post('/user/login',data, function(res, statusText, xhr) {
+            if (statusText=='success') {
+              console.log(res)
+              if(res.code=='success'){
+                $.cookie('name',res.data.name)
+                $.popup1(res.content)
+                location.href='index.html'
+
+              }else{
+                $.popup1(res.content)
+
+              }
             
             }
         })

@@ -18,7 +18,7 @@ $.extend({
                     this.remove();
                     if (typeof callback == "function") {
                         // callback();
-                        setTimeout(callback, 1000)
+                        setTimeout(callback, 500)
                     }
                 });
             })

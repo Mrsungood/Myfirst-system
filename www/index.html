@@ -14,6 +14,7 @@
     <script src='js/bootstrap.js'></script>
     <script src='js/index.js'></script>
     <script src='js/popupInsert.js'></script>
+    <script src='js/jquery.cookie.js'></script>
 </head>
 
 <body>
@@ -21,8 +22,10 @@
     <div id="nav">
         <nav class="nav">
             <div class="logo">智游教育</div>
-            <div class="user"><span class="glyphicon glyphicon-plus ask">提问</span>&#x3000<span class="glyphicon glyphicon-user login">登录</span></div>
-          <!--   <div class="user"><span class="glyphicon glyphicon-plus">提问</span>&#x3000<span class="glyphicon glyphicon-user user-name">孙詩詠</span></div> -->
+            <div class="user">
+            <span class="glyphicon glyphicon-plus ask ">提问</span>&#x3000
+            <span class="user-name"></span>
+            </div>
             <div class="user-info">
                 <a href="javascript:;">个人资料</a>
                 <a href="javascript:;">退出</a>
@@ -71,25 +74,43 @@
     </main>
 </body>
 <script type="text/javascript">
-$(function(){
-//     $('.user-info a:eq(1)').click(function() {
-//     $.popup('退出成功',function(){
-//          location.href='ask.html'
-    
-//     })
-// })
-    $('.login').click(function() {
-        location.href='login.html'
-       
-       
-})
-     $('.ask').click(function(){
-    location.href='ask.html'
-  })
+$(function() {
+    // 跳转提问页面
+    $('.ask').click(function() {
+            location.href = 'ask.html'
+        })
+        // cookie判断
+    var name = $.cookie('name')
+    if (name) {
+        $('.user-name').html('<span class="glyphicon glyphicon-user "></span>' + name).addClass('online')
+
+    } else {
+        $('.user-name').html('<span class="glyphicon glyphicon-user "></span>登录')
+
+    }
+    $('body').on('click', '.user-name', function() {
+        if ($(this).hasClass('online')) {
+            $('.user-info').css({
+                top: 50 + 'px',
+                right: -10 + 'px'
+            })
+            $('.user-info').slideToggle()
+        } else {
+            location.href = '/login.html'
+        }
+    })
+
+    $('.user-info a:eq(1)').click(function(e) {
+        $.cookie('name',name,{
+            expires:-1
+        });
+        $.popup1('退出成功', function() {
+            location.href = 'index.html'
+        })
+    })
 
 
 })
-
 </script>
 
 </html>

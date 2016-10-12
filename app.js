@@ -35,46 +35,58 @@ app.post("/user/photo", upload.single('photo'), (req, res) => {
     console.log('user')
 
 })
-app.post('/register/post', (req, res) => {
-    fs.readFile('question/user.txt', (err, data) => {
-        var user = req.body;
-        var password = req.body.password;
-        var password01 = req.body.password01
-        var str = data.toString().trim()
-            // console.log(str)
-            console.log(password01)
-            console.log(password)
-        var usersObj = JSON.parse('[' + str + ']');
-        // console.log(usersObj)
-        var isIn = false;
-        usersObj.forEach(function(ele, ind) {
-            if (user.name == ele.name) {
-                isIn = true;
-            }
+app.post('/user/register', (req, res) => {
+    req.body.ip = req.ip;
+    req.body.time = new Date().getTime()
+    console.log(req.body)
+    var user = req.body;
+    if (user.password == user.password01) {
+        delete user.password01;
+        console.log(user)
+        fs.readFile('users/user.txt', (err, data) => {
+            var users = data.toString().trim()
+            var douhao = users.length > 0 ? "," : " ";
+            var usersArr = JSON.parse('[' + users + ']')
+            var isIn = usersArr.some(function(ele) {
+                return (user.name == ele.name)
+            })
+            if (isIn) {
+                res.status(200).json({ "code": "error", "content": "该用户名已被占用" })
+            } else {
+                fs.appendFile('users/user.txt', douhao + JSON.stringify(user), err => {
+                    if (!err) {
+                        res.status(200).json({ "code": "success", "content": "恭喜注册成功！" })
+                    }
 
-        })
-        if (isIn) {
-           /*用户被占用*/
-            res.status(200).send('err')
-        } else {
-            if (password01 == password) {
-                // 成功注册
-                var userStr = JSON.stringify(user);
-                var douhao = data.toString().trim().length > 0 ? ',' : '';
-                fs.appendFile('question/user.txt', douhao + userStr, (err) => {
-                    res.status(200).send('1')
                 })
 
-            } else {
-                // 两次密码不一样
-                 res.status(200).send('0')
-
             }
+        })
 
+    } else {
+        res.status(200).json({ "code": "error", "content": "两次密码输入不一致" })
+
+    }
+
+})
+
+app.post('/user/login',(req,res)=>{
+    console.log(req.body)
+    var user=req.body;
+    fs.readFile('users/user.txt',(err,data)=>{
+        var users=data.toString().trim()
+        var usersArr=JSON.parse('['+users+']')
+        var isIn=usersArr.some(function(ele){
+            return (user.name==ele.name && user.password==ele.password)
+        })
+        if(isIn){
+            res.status(200).json({code:'success',content:'登陆成功!',data:user})
+        }else{
+             res.status(200).json({code:'err',content:'用户名或密码错误'})
         }
 
-
     })
+
 })
 
 
