@@ -1,0 +1,144 @@
+@charset "utf-8";
+/*导航*/
+.h50 {
+    height: 50px;
+}
+
+#nav {
+    position: fixed;
+    width: 100%;
+    height: 50px;
+    top: 0px;
+    background: #222;
+    z-index: 999;
+}
+
+.nav {
+    padding: 0 15px;
+    max-width: 1140px;
+    height: 50px;
+    position: relative;
+    color: #9d9d9d;
+    margin: 0 auto;
+}
+
+.nav .logo,
+.nav .back{
+    height: 20px;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    font-size: 18px;
+    line-height: 20px;
+}
+
+.nav .user {
+    height: 20px;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 14px;
+    line-height: 20px;
+}
+.nav .title{
+	font-size: 18px;
+	line-height:50px;
+	text-align: center;
+
+}
+/*用户下拉*/
+.user-info{
+	position: absolute;
+	z-index: 998;
+	display: none;
+	border: 1px solid #cdcdcd;
+	border-radius: 2px;
+	background-color: white;
+	width: 158px;
+	box-shadow: 1px 1px 5px #aaa;
+}
+.user-info a{
+	display: block;
+	color: #000;
+	border-bottom: 1px solid #e5e5e5;
+	text-align: right;
+	font-size: 16px;
+	padding-right: 20px;
+	height: 40px;
+	line-height: 40px;
+
+}
+.user-info a:last-child{
+	border-bottom: none;
+}
+/*用户留言内容*/
+ main{
+ 	padding: 0 15px;
+    max-width: 1140px;
+    margin: 0 auto;
+
+ }
+.messages{}
+.messages li{
+	position: relative;
+}
+.messages li .user-photo{
+	width: 64px;
+	height: 64px;
+	border-radius: 50%;
+	overflow: hidden;
+}
+.messages li .h2-title{
+	font-size: 16px; line-height: 28px; font-weight: 400;
+	color: #333;
+	font-family: Arial, "Microsoft YaHei";
+
+}
+.messages li .ptext{
+	font-size: 14px;
+	color: #333;
+	line-height: 24px;
+
+
+}
+.messages li .ptime{
+	font-size: 12px;
+	margin-top: 3px;
+	color: #888;
+	line-height: 22px;
+}
+.messages .ask{
+
+	padding-left:74px;
+	
+}
+.messages .ask .user-photo{
+	position: absolute;
+	float: left;
+	top: 5px;
+	left: 0;
+
+}
+.messages .answer{
+	padding-right: 74px;
+
+}
+.messages .answer .user-photo{
+	position: absolute;
+	float: right;
+	top: 5px;
+	right: 0;
+
+}
+/*提问表单*/
+.ask-content{
+	margin-top: 13px;
+}
+label{
+	text-indent: 10px;
+}
+.btn{
+	font-size: 16px;
+}
+
+
