@@ -9,9 +9,12 @@
     <link rel="stylesheet " type="text/css " href="css/globle.css " />
     <link rel="stylesheet " type="text/css " href="css/style.css " />
     <link rel="stylesheet " type="text/css " href="css/bootstrap.css " />
+    <link rel="stylesheet " type="text/css " href="css/popupInsert.css " />
     <script src='js/jquery-2.0.3.js'></script>
     <script src='js/bootstrap.js'></script>
-    <script src='js/index.js'></script>
+    <script src='js/public.js'></script>
+    <script src='js/popupInsert.js'></script>
+    <script src='js/jquery.cookie.js'></script>
 </head>
 
 <body>
@@ -27,13 +30,38 @@
         <div class="ask-content">
             <form action="" method="POST">
                 <div class="form-group">
-                    <textarea name="question" class="form-control form_content" placeholder="请写你的答案"></textarea>
+                    <textarea name="content" class="form-control form_content" placeholder="请写你的答案"></textarea>
                 </div>
                 <input type="submit" class="btn btn-success form-control" value="提交答案" data-toggle="modal" data-target="#myModal">
+            </form>
         </div>
     </main>
 </body>
 <script type="text/javascript">
+$(function() {
+        $("form").submit(function(e) {
+            e.preventDefault()
+            var data = $(this).serialize();
+            // 'constent="fdafdafs"&qu'
+            console.log(data)
+            data = data + "&question=" + $.cookie('question')
+            console.log(data)
+
+                // ajax发送请求
+            $.post('/user/answer', data, function(res, statusText, xhr) {
+                if (statusText == "success") {
+                    if (res.code = "success") {
+                        $.popup1(res.content, function() {
+                            location.href = '/index.html'
+                        })
+                    } else {
+                        $.popup(res.content)
+                    }
+                }
+            })
+        })
+     
+})
 </script>
 
 </html>

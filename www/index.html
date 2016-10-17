@@ -12,10 +12,39 @@
     <link rel="stylesheet " type="text/css " href="css/popupInsert.css " />
     <script src='js/jquery-2.0.3.js'></script>
     <script src='js/bootstrap.js'></script>
-    <script src='js/index.js'></script>
     <script src='js/popupInsert.js'></script>
     <script src='js/jquery.cookie.js'></script>
+    <script src="js/index.js"></script>
+    <script src="js/template.js"></script>
 </head>
+<script type="text/javascript">
+$(function() {
+    // 打印问答文件
+    $.getJSON('/question', function(res, statusText, xhr) {
+        if (statusText == "success") {
+            var messagesObj = res.data;
+            console.log(res.data)
+            var html = ' ';
+           messagesObj.forEach(function(ele, ind) {
+                // console.log(typeof(ele))
+                html = html + "<li class=\"ask\" data-time=\"" + ele.time + "\">" + "    <img src=\"uploads/" + ele.name + ".jpg\" alt=\"\" class=\"user-photo fl\" width=\"64\" height=\"64\">" + "    <h2 class=\"h2-title\">" + ele.name + "</h2>" + "    <p class=\"ptext\">" + formatContent(ele.content) + "</p>" + "    <p class=\"ptime\">" + formatTime(ele.time) + "</p>" + "</li>";
+                if (typeof(ele.answer) == 'object') {
+                    // 一个问题的所有回答
+                    ele.answer.forEach(function(el) {
+                        html = html + "<li class=\"answer\"\"" + el.time + "\">" + "    <img src=\"uploads/" + el.name + ".jpg\" alt=\"\" class=\"user-photo fl\" width=\"64\" height=\"64\">" + "    <h2 class=\"h2-title\">" + el.name + "</h2>" + "    <p class=\"ptext\">" + formatContent(el.content) + "</p>" + "    <p class=\"ptime\">" + formatTime(el.time) + "</p>" + "</li>";
+                    })
+                }
+            });
+           
+            $('.messages').html(html)
+        }
+
+    })
+   
+
+})
+</script>
+
 
 <body>
     <div class="h50"></div>
@@ -23,8 +52,8 @@
         <nav class="nav">
             <div class="logo">智游教育</div>
             <div class="user">
-            <span class="glyphicon glyphicon-plus ask ">提问</span>&#x3000
-            <span class="user-name"></span>
+                <span class="glyphicon glyphicon-plus aske ">提问</span>&#x3000
+                <span class="user-name"></span>
             </div>
             <div class="user-info">
                 <a href="javascript:;">个人资料</a>
@@ -34,38 +63,14 @@
     </div>
     <main>
         <ul class="messages">
-            <li class="ask">
+            <li class="ask data-time">
                 <img src="images/img01.jpg" alt="" class="user-photo">
                 <h2 class="h2-title">中国人民共和国</h2>
-                <p class="ptext">稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的</p>
+                <p class="ptext">稍等一的</p>
                 <p class="time">2016-10-11</p>
             </li>
             <li class="answer">
-                <img src="images/img02.jpg" alt="" class="user-photo">
-                <h2 class="h2-title">什么呀我擦</h2>
-                <p class="ptext">撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播</p>
-                <p class="time">2016-10-12</p>
-            </li>
-            <li class="ask">
-                <img src="images/img01.jpg" alt="" class="user-photo">
-                <h2 class="h2-title">中国人民共和国</h2>
-                <p class="ptext">稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的</p>
-                <p class="time">2016-10-11</p>
-            </li>
-            <li class="answer">
-                <img src="images/img02.jpg" alt="" class="user-photo">
-                <h2 class="h2-title">什么呀我擦</h2>
-                <p class="ptext">撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播</p>
-                <p class="time">2016-10-12</p>
-            </li>
-            <li class="ask">
-                <img src="images/img01.jpg" alt="" class="user-photo">
-                <h2 class="h2-title">中国人民共和国</h2>
-                <p class="ptext">稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的</p>
-                <p class="time">2016-10-11</p>
-            </li>
-            <li class="answer">
-                <img src="images/img02.jpg" alt="" class="user-photo">
+                <img src="images/img02.jpg" alt="" class="user-photo" onerror="this.src='/images/photo_default.jpg'">
                 <h2 class="h2-title">什么呀我擦</h2>
                 <p class="ptext">撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播撒干个更合适的稍等一会换个撒播</p>
                 <p class="time">2016-10-12</p>
@@ -73,44 +78,4 @@
         </ul>
     </main>
 </body>
-<script type="text/javascript">
-$(function() {
-    // 跳转提问页面
-    $('.ask').click(function() {
-            location.href = 'ask.html'
-        })
-        // cookie判断
-    var name = $.cookie('name')
-    if (name) {
-        $('.user-name').html('<span class="glyphicon glyphicon-user "></span>' + name).addClass('online')
-
-    } else {
-        $('.user-name').html('<span class="glyphicon glyphicon-user "></span>登录')
-
-    }
-    $('body').on('click', '.user-name', function() {
-        if ($(this).hasClass('online')) {
-            $('.user-info').css({
-                top: 50 + 'px',
-                right: -10 + 'px'
-            })
-            $('.user-info').slideToggle()
-        } else {
-            location.href = '/login.html'
-        }
-    })
-
-    $('.user-info a:eq(1)').click(function(e) {
-        $.cookie('name',name,{
-            expires:-1
-        });
-        $.popup1('退出成功', function() {
-            location.href = 'index.html'
-        })
-    })
-
-
-})
-</script>
-
 </html>

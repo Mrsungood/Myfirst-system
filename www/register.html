@@ -12,15 +12,16 @@
     <link rel="stylesheet " type="text/css " href="css/popupInsert.css " />
     <script src='js/jquery-2.0.3.js'></script>
     <script src='js/bootstrap.js'></script>
-    <script src='js/index.js'></script>
+    <script src='js/public.js'></script>
     <script src='js/popupInsert.js'></script>
+    <script src='js/jquery.cookie.js'></script>
 </head>
 
 <body>
     <div class="h50"></div>
     <div id="nav">
         <nav class="nav">
-            <div class="back"><span class="glyphicon glyphicon-chevron-left"></span></div>
+            <div class="login back"><span class="glyphicon glyphicon-chevron-left"></span></div>
             <div class="title"><span>注册</span></div>
             <div class="user"><span class="glyphicon glyphicon-home"></span></div>
         </nav>
@@ -62,31 +63,22 @@
 </body>
 <script type="text/javascript">
 $(function() {
-    // 返回登录
-    $('.back').click(function() {
-            location.href = 'login.html'
-        })
-        // 返回主页
-    $('.user').click(function() {
-            location.href = 'index.html'
-        })
-        // 提交数据
+    // 提交数据
     $("form").submit(function(e) {
         e.preventDefault()
             // 可以把表单里面的所有内容读出来形成一个字符串
         var data = $(this).serializeArray();
         // console.log($(this).serialize());
-        // console.log($(this).serializeArray())
-            // ajax发送请求
+        // ajax发送请求
         $.post('/user/register', data, function(res, statusText, xhr) {
             if (statusText == "success") {
-               if(res.code=="success"){
-                $.popup1(res.content,function(){
-                    location.href="/login.html"
-                })
-               }else{
-                $.popup1(res.content)
-               }
+                if (res.code == "success") {
+                    $.popup1(res.content, function() {
+                        location.href = "/login.html"
+                    })
+                } else {
+                    $.popup1(res.content)
+                }
             }
         })
     })
