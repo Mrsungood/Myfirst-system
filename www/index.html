@@ -22,21 +22,23 @@ $(function() {
     // 打印问答文件
     $.getJSON('/question', function(res, statusText, xhr) {
         if (statusText == "success") {
-            var messagesObj = res.data;
-            console.log(res.data)
-            var html = ' ';
-           messagesObj.forEach(function(ele, ind) {
-                // console.log(typeof(ele))
-                html = html + "<li class=\"ask\" data-time=\"" + ele.time + "\">" + "    <img src=\"uploads/" + ele.name + ".jpg\" alt=\"\" class=\"user-photo fl\" width=\"64\" height=\"64\">" + "    <h2 class=\"h2-title\">" + ele.name + "</h2>" + "    <p class=\"ptext\">" + formatContent(ele.content) + "</p>" + "    <p class=\"ptime\">" + formatTime(ele.time) + "</p>" + "</li>";
-                if (typeof(ele.answer) == 'object') {
-                    // 一个问题的所有回答
-                    ele.answer.forEach(function(el) {
-                        html = html + "<li class=\"answer\"\"" + el.time + "\">" + "    <img src=\"uploads/" + el.name + ".jpg\" alt=\"\" class=\"user-photo fl\" width=\"64\" height=\"64\">" + "    <h2 class=\"h2-title\">" + el.name + "</h2>" + "    <p class=\"ptext\">" + formatContent(el.content) + "</p>" + "    <p class=\"ptime\">" + formatTime(el.time) + "</p>" + "</li>";
-                    })
-                }
-            });
-           
-            $('.messages').html(html)
+            var data=res;
+         // var messagesObj = res.data;
+          // var html = ' ';
+          //  messagesObj.forEach(function(ele, ind) {
+          //       // console.log(typeof(ele))
+          //       html = html + "<li class=\"ask\" data-time=\"" + ele.time + "\">" + "    <img src=\"uploads/" + ele.name + ".jpg\" alt=\"\" class=\"user-photo fl\" width=\"64\" height=\"64\">" + "    <h2 class=\"h2-title\">" + ele.name + "</h2>" + "    <p class=\"ptext\">" + formatContent(ele.content) + "</p>" + "    <p class=\"ptime\">" + formatTime(ele.time) + "</p>" + "</li>";
+          //       if (typeof(ele.answer) == 'object') {
+          //           // 一个问题的所有回答
+          //           ele.answer.forEach(function(el) {
+          //               html = html + "<li class=\"answer\"\"" + el.time + "\">" + "    <img src=\"uploads/" + el.name + ".jpg\" alt=\"\" class=\"user-photo fl\" width=\"64\" height=\"64\">" + "    <h2 class=\"h2-title\">" + el.name + "</h2>" + "    <p class=\"ptext\">" + formatContent(el.content) + "</p>" + "    <p class=\"ptime\">" + formatTime(el.time) + "</p>" + "</li>";
+          //           })
+          //       }
+          //   });
+          // $('.messages').html(html)
+          var html = template("questions", res)
+            $('.messages').html(html);
+
         }
 
     })
@@ -45,6 +47,25 @@ $(function() {
 })
 </script>
 
+<script id="questions" type="text/html">
+     {{each data as ask}}
+     <li class="ask" data-time="{{ask.time}}">
+    <img src="uploads/{{ask.name}}.jpg" alt="" class="user-photo">
+    <h2 class="h2-title">{{ask.name}}</h2>
+    <p class="ptext">{{ask.content}}</p>
+    <p class="time">{{ask.time}}</p>
+     {{each ask.answer as answer}}
+      <li class="answer">
+                <img src="uploads/{{answer.name}}.jpg" alt="" class="user-photo" onerror="this.src='/images/photo_default.jpg'">
+                <h2 class="h2-title">{{answer.name}}</h2>
+                <p class="ptext">{{answer.content}}</p>
+                <p class="time">{{answer.time}}</p>
+            </li>
+     {{/each}}
+    </li>
+     {{/each}}
+ 
+</script>
 
 <body>
     <div class="h50"></div>
